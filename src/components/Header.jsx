@@ -43,55 +43,52 @@ const Header = () => {
           mcb
         </motion.div>
 
-        {/* Navigation + Resume (centered together) */}
-        <div className="flex items-center space-x-6">
-          <nav className="flex space-x-6 md:space-x-8 items-center">
-            <a href="#home" className="hover:underline hover:animate-pulse">Home</a>
-            <a href="#skills" className="hover:underline hover:animate-pulse">Skills</a>
-            <a href="#projects" className="hover:underline hover:animate-pulse">Projects</a>
-            <a href="#achievements" className="hover:underline hover:animate-pulse">Achievements</a>
-            <a href="#contact" className="hover:underline hover:animate-pulse">Contact</a>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-6">
+          <a href="#home" className="hover:underline hover:animate-pulse">Home</a>
+          <a href="#skills" className="hover:underline hover:animate-pulse">Skills</a>
+          <a href="#projects" className="hover:underline hover:animate-pulse">Projects</a>
+          <a href="#achievements" className="hover:underline hover:animate-pulse">Achievements</a>
+          <a href="#contact" className="hover:underline hover:animate-pulse">Contact</a>
 
-            {/* Resume button next to navigation */}
-            <motion.button
-              onClick={openResume}
-              whileHover={{ scale: 1.1, boxShadow: "0px 0px 15px rgba(168,85,247,0.8)" }}
-              whileTap={{ scale: 0.95 }}
-              className="px-5 py-2 bg-gradient-to-r from-pink-400 to-pink-300 text-white font-semibold rounded-full shadow-md border-2 border-transparent hover:border-purple-600 transition-all duration-300"
-            >
-              Resume
-            </motion.button>
-          </nav>
-        </div>
+          <motion.button
+            onClick={openResume}
+            whileHover={{ scale: 1.1, boxShadow: "0px 0px 15px rgba(168,85,247,0.8)" }}
+            whileTap={{ scale: 0.95 }}
+            className="px-5 py-2 bg-gradient-to-r from-pink-400 to-pink-300 text-white font-semibold rounded-full shadow-md border-2 border-transparent hover:border-purple-600 transition-all duration-300"
+          >
+            Resume
+          </motion.button>
+        </nav>
 
-        {/* Light/Dark Toggle (far right) */}
+        {/* Desktop Light/Dark Toggle */}
         <motion.button
           onClick={() => setDarkMode(!darkMode)}
           whileHover={{ scale: 1.1, boxShadow: "0px 0px 15px rgba(255,255,255,0.6)" }}
           whileTap={{ scale: 0.95, rotate: 5 }}
           transition={{ type: "spring", stiffness: 300 }}
-          className="px-3 py-1 bg-white text-purple-600 font-semibold rounded shadow-md"
+          className="hidden md:inline px-3 py-1 bg-white text-purple-600 font-semibold rounded shadow-md"
         >
           {darkMode ? "Dark" : "Light"}
         </motion.button>
 
-        {/* Mobile menu toggle */}
-        <div className="flex items-center space-x-2 md:hidden">
+        {/* Mobile Menu Toggle */}
+        <div className="flex md:hidden items-center space-x-3">
           <motion.button
             onClick={() => setMenuOpen(!menuOpen)}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.95 }}
-            className="text-white bg-purple-700 dark:bg-gray-700 px-2 py-1 rounded"
+            className="text-white bg-purple-700 dark:bg-gray-700 px-3 py-2 rounded text-lg"
           >
             ☰
           </motion.button>
 
           <motion.button
             onClick={() => setDarkMode(!darkMode)}
-            whileHover={{ scale: 1.1, boxShadow: "0px 0px 15px rgba(255,255,255,0.6)" }}
-            whileTap={{ scale: 0.95, rotate: 5 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="px-3 py-1 bg-white text-purple-600 font-semibold rounded shadow-md"
+            className="px-3 py-2 bg-white text-purple-600 font-semibold rounded shadow-md text-sm"
           >
             {darkMode ? "Dark" : "Light"}
           </motion.button>
@@ -101,22 +98,25 @@ const Header = () => {
       {/* Mobile Menu */}
       {menuOpen && (
         <motion.nav
-          className="flex flex-col space-y-4 p-4 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-gray-900 dark:to-black md:hidden"
+          className="flex flex-col items-center space-y-4 p-5 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-gray-900 dark:to-black md:hidden border-t border-purple-400"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <a href="#home" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a>
-          <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
-          <a href="#achievements" onClick={() => setMenuOpen(false)}>Achievements</a>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-          <button
+          <a href="#home" onClick={() => setMenuOpen(false)} className="w-full text-center py-2">Home</a>
+          <a href="#skills" onClick={() => setMenuOpen(false)} className="w-full text-center py-2">Skills</a>
+          <a href="#projects" onClick={() => setMenuOpen(false)} className="w-full text-center py-2">Projects</a>
+          <a href="#achievements" onClick={() => setMenuOpen(false)} className="w-full text-center py-2">Achievements</a>
+          <a href="#contact" onClick={() => setMenuOpen(false)} className="w-full text-center py-2">Contact</a>
+
+          <motion.button
             onClick={() => { openResume(); setMenuOpen(false); }}
-            className="px-4 py-2 bg-gradient-to-r from-pink-400 to-pink-300 text-white font-semibold rounded-full shadow-md border-2 border-transparent hover:border-purple-600 transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full px-4 py-2 bg-gradient-to-r from-pink-400 to-pink-300 text-white font-semibold rounded-full shadow-md border-2 border-transparent hover:border-purple-600 transition-all duration-300"
           >
             Resume
-          </button>
+          </motion.button>
         </motion.nav>
       )}
     </header>
