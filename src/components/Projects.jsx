@@ -41,65 +41,54 @@ const projects = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.3 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 70, damping: 20 } },
-};
+const fadeSlide = (direction) => ({
+  hidden: { opacity: 0, x: direction === "left" ? -80 : 80 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
+});
 
 const Projects = () => {
   const [expanded, setExpanded] = useState(null);
+
   const toggleExpand = (id) => setExpanded(expanded === id ? null : id);
 
   return (
-    <motion.section
+    <section
       id="projects"
-      className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:to-black py-20 px-4 sm:px-6 md:px-10"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: false, amount: 0.3 }}
-      variants={containerVariants}
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:to-black text-gray-900 dark:text-white py-20 px-6 overflow-hidden"
     >
       <motion.h2
-        className="text-4xl font-bold mb-16 text-gray-800 dark:text-white text-center"
-        initial={{ y: -50, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
+        className="text-4xl font-bold text-purple-700 dark:text-purple-400 mb-16 text-center"
+        initial={{ opacity: 0, y: -50 }}
+        whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
         My Projects
       </motion.h2>
 
-      <div className="flex flex-col gap-12 w-full max-w-6xl">
-        {projects.map((project) => (
+      <div className="w-full max-w-6xl space-y-16">
+        {projects.map((project, idx) => (
           <motion.div
             key={project.id}
-            className="flex flex-col md:flex-row items-center justify-between rounded-2xl shadow-xl overflow-hidden bg-white dark:bg-gray-800 p-6 hover:shadow-purple-500/60 transition-all duration-700"
-            variants={cardVariants}
-            whileHover={{
-              scale: 1.03,
-              boxShadow:
-                "0 0 25px rgba(168, 85, 247, 0.4), 0 0 45px rgba(236, 72, 153, 0.4)",
-            }}
-            whileTap={{ scale: 0.97 }}
+            variants={fadeSlide(idx % 2 === 0 ? "left" : "right")}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }}
+            className={`flex flex-col md:flex-row items-center gap-8`}
           >
             {/* Project Image */}
-            <div className="relative w-full md:w-1/2 h-64 sm:h-72 md:h-80 rounded-xl overflow-hidden flex-shrink-0">
+            <motion.div
+              whileHover={{ scale: 1.05, boxShadow: "0px 0px 25px rgba(168,85,247,0.6)" }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full md:w-1/2 rounded-2xl overflow-hidden shadow-lg border-2 border-transparent hover:border-purple-400 bg-white/10 dark:bg-gray-800/30"
+            >
               {project.image ? (
                 <img
                   src={project.image}
                   alt={project.name}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover rounded-2xl"
                 />
               ) : (
-                <div className="flex justify-center items-center h-full text-xl text-gray-700 dark:text-gray-300 font-semibold">
-                  {project.name}
-                </div>
+                <div className="p-10 text-center">{project.name}</div>
               )}
 
               {/* GitHub Icon */}
@@ -132,27 +121,17 @@ const Projects = () => {
                   <FaGithub />
                 </motion.a>
               )}
-            </div>
+            </motion.div>
 
             {/* Text Section */}
-            <div className="mt-6 md:mt-0 md:w-1/2 px-2 sm:px-4 md:px-6 flex flex-col justify-center space-y-4 text-center md:text-left">
+            <div className="w-full md:w-1/2 text-center md:text-left">
               <motion.h3
-                className="text-2xl font-bold text-purple-700 dark:text-purple-400"
-                whileHover={{
-                  scale: 1.05,
-                  textShadow: "0 0 10px rgba(147,51,234,0.6)",
-                }}
+                whileHover={{ scale: 1.05 }}
+                className="text-2xl font-semibold mb-3 text-purple-700 dark:text-purple-400"
               >
                 {project.name}
               </motion.h3>
-
-              <motion.p
-                className="text-gray-700 dark:text-gray-300 leading-relaxed"
-                whileHover={{
-                  scale: 1.02,
-                  textShadow: "0 0 8px rgba(168,85,247,0.4)",
-                }}
-              >
+              <motion.p whileHover={{ scale: 1.02 }} className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {expanded === project.id
                   ? project.description
                   : project.description.slice(0, 140) + "..."}
@@ -176,7 +155,7 @@ const Projects = () => {
           </motion.div>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 };
 
